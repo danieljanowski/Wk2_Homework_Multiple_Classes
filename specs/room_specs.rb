@@ -45,12 +45,11 @@ class RoomTest < Minitest::Test
 
     result = @room1.check_in(@guest3)
     assert_equal("Not enough room", result)
-    @room1.check_in(@guest3)
     assert_equal(70, @guest3.wallet)
     assert_equal(2, @room1.guests_list.length)
   end
 
-  def test_check_out_guest
+  def test_check_out
     @room1.check_in(@guest1)
     assert_equal(1, @room1.guests_list.length)
     @room1.check_out(@guest1)
