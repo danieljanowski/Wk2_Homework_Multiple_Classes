@@ -16,8 +16,13 @@ class Room
 
   def check_in(guest)
     if @space > @guests_list.count
-      @guests_list << guest
-      guest.pay_out(entry_fee)
+      if @entry_fee < guest.wallet
+        @guests_list << guest
+        guest.pay_out(entry_fee)
+        return "Welcome #{guest.name}!"
+      else
+        return "#{guest.name}, you don't have enough money"
+      end
     else
       return "Not enough room"
     end

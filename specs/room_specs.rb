@@ -14,6 +14,7 @@ class RoomTest < Minitest::Test
     @guest1 = Guest.new("Daniel", "Christmas Song", 100)
     @guest2 = Guest.new("Ollie", "Alone", 50)
     @guest3 = Guest.new("Naomi", "King of my Heart", 70)
+    @guest4 = Guest.new("Samuel", "Another favorite song", 10)
   end
 
   def test_room_has_name_space_entry_fee_and_playlist
@@ -47,6 +48,12 @@ class RoomTest < Minitest::Test
     assert_equal("Not enough room", result)
     assert_equal(70, @guest3.wallet)
     assert_equal(2, @room1.guests_list.length)
+  end
+
+  def test_check_in_not_enough_money
+    result = @room1.check_in(@guest4)
+    assert_equal("Samuel, you don't have enough money", result)
+    assert_equal(0, @room1.guests_list.length)
   end
 
   def test_check_out
