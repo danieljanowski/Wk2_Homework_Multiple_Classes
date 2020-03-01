@@ -5,11 +5,13 @@ MiniTest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative '../room'
 require_relative '../song'
 require_relative '../guest'
+require_relative '../sales_register'
 
 class RoomTest < Minitest::Test
 
   def setup
-    @room1 = Room.new("Rainbow Room", 2, 20)
+    @sales_register = Sales_Register.new
+    @room1 = Room.new("Rainbow Room", 2, 20, @sales_register)
     @song1 = Song.new("Christmas Song")
     @guest1 = Guest.new("Daniel", "Christmas Song", 100)
     @guest2 = Guest.new("Ollie", "Alone", 50)
@@ -33,15 +35,14 @@ class RoomTest < Minitest::Test
     @room1.check_in(@guest1)
     assert_equal(1, @room1.guests_list.length)
     assert_equal(80, @guest1.wallet)
+    assert_equal(20, @sales_register.total_cash)
   end
 
   def test_check_in_not_enough_room
     @room1.check_in(@guest1)
-    assert_equal(80, @guest1.wallet)
     assert_equal(1, @room1.guests_list.length)
 
     @room1.check_in(@guest2)
-    assert_equal(30, @guest2.wallet)
     assert_equal(2, @room1.guests_list.length)
 
     result = @room1.check_in(@guest3)
